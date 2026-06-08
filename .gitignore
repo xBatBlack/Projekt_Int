@@ -1,0 +1,8 @@
+venv/
+env/
+.env/
+.venv/
+__pycache__/
+*.pyc
+data/raw/dataset-resized/
+.DS_Store
