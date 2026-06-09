@@ -1,0 +1,11 @@
+=== RAPORT Z EKSPERYMENTÓW ===
+
+--- MODELE KLASYCZNE (z inżynierią cech koloru) ---
+1. Baseline KNN: 25.00%
+2. Baseline Random Forest: 18.75%
+3. Baseline SVM: 9.38%
+
+--- GŁĘBOKIE SIECI NEURONOWE ---
+MobileNetV2 Najwyższa Dokładność: 74.75%
+ResNet50 Najwyższa Dokładność: 29.82%
+
