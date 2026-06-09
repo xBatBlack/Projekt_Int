@@ -1,6 +1,6 @@
-=== RAPORT Z EKSPERYMENTÓW ===
+RAPORT Z EKSPERYMENTÓW
 
---- MODELE KLASYCZNE (Inżynieria Cech HOG) ---
+MODELE KLASYCZNE (Inżynieria Cech HOG)
 1. Baseline KNN: 75.00%
 2. Baseline Random Forest: 31.25%
 3. Baseline SVM: 31.25%

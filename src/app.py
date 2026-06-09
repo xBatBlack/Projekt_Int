@@ -24,7 +24,7 @@ except Exception as e:
     st.error(f"Nie znaleziono pliku modelu. Upewnij się, że uruchomiłeś skrypt trenujący!")
     st.stop()
 
-# --- FUNKCJE DLA WYJAŚNIALNEGO AI (GRAD-CAM) ---
+#FUNKCJE DLA WYJAŚNIALNEGO AI (GRAD-CAM)
 def make_gradcam_heatmap(img_array, full_model):
     """Tworzy mapę ciepła pokazującą, na które piksele patrzył model"""
     base_model = full_model.layers[0] # Pobieramy wbudowanego MobileNetV2

@@ -15,7 +15,6 @@ import os
 from skimage.feature import hog
 from skimage.color import rgb2gray
 
-# --- KONFIGURACJA ŚCIEŻEK ---
 DATASET_PATH = 'data/raw/dataset-resized'
 MODEL_SAVE_PATH = 'models/best_trash_model.h5'
 FIGURES_DIR = 'reports/figures'
@@ -28,7 +27,7 @@ os.makedirs(REPORT_DIR, exist_ok=True)
 IMG_SIZE = (128, 128)
 BATCH_SIZE = 32
 
-print("=== ETAP 1: Preprocessing i Augmentacja ===")
+print("ETAP 1: Preprocessing i Augmentacja")
 datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -57,7 +56,7 @@ def extract_advanced_features(images):
         features.append(np.hstack([hog_feat, mean_col, std_col]))
     return np.array(features)
 
-print("\n=== ETAP 2: Modele Klasyczne z HOG (sklearn) ===")
+print("\nETAP 2: Modele Klasyczne z HOG (sklearn)")
 # Zbieramy większą próbkę dla klasycznych algorytmów (5 paczek = 160 obrazków)
 X_train_list, y_train_list = [], []
 for _ in range(5):
@@ -101,7 +100,7 @@ callbacks = [
 ]
 
 
-#te modele były testowane, ale zostały odrzucone przez za słabe wyniki
+#te modele testowałem, ale odrzuciłem przez za słabe wyniki
 """
  EKSPERYMENT 1: Własna, prosta sieć CNN
  Powód odrzucenia: Zbyt prosta architektura dla tak skomplikowanego zbioru danych.
@@ -139,15 +138,15 @@ base_mobilenet.trainable = False
 
 mobilenet_model = Sequential([
     base_mobilenet,
-    GlobalAveragePooling2D(),
+    GlobalAveragePooling2D(),       # Spłaszcza wizję do jednego konkretnego wniosku (wektora)
     Dense(128, activation='relu'),
-    Dropout(0.3),
+    Dropout(0.3),                   # losowo wyłącza 30% neuronów aby model nie uczył się na pamięć
     Dense(6, activation='softmax')
 ])
 mobilenet_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 mn_history = mobilenet_model.fit(train_gen, validation_data=val_gen, epochs=10, callbacks=callbacks, verbose=1)
 
-print("\n=== ETAP 4: Zapisywanie i Generowanie Raportów ===")
+print("\nETAP 4: Zapisywanie i Generowanie Raportów")
 mn_val_acc = max(mn_history.history['val_accuracy'])
 mobilenet_model.save(MODEL_SAVE_PATH)
 
@@ -176,14 +175,14 @@ plt.savefig(os.path.join(FIGURES_DIR, 'confusion_matrix.png'))
 
 with open(os.path.join(REPORT_DIR, 'raport_badawczy.txt'), 'w', encoding='utf-8') as f:
     f.write("=== RAPORT Z EKSPERYMENTÓW ===\n\n")
-    f.write("--- MODELE KLASYCZNE (Inżynieria Cech HOG) ---\n")
+    f.write("-MODELE KLASYCZNE (Inżynieria Cech HOG)-\n")
     f.write(f"1. Baseline KNN: {knn_acc*100:.2f}%\n")
     f.write(f"2. Baseline Random Forest: {rf_acc*100:.2f}%\n")
     f.write(f"3. Baseline SVM: {svm_acc*100:.2f}%\n\n")
-    f.write("--- GŁĘBOKIE SIECI NEURONOWE ---\n")
+    f.write("-GŁĘBOKIE SIECI NEURONOWE-\n")
     f.write(f"MobileNetV2 Dokładność: {mn_val_acc*100:.2f}%\n")
     f.write(f"* Modele CNN oraz ResNet50 odrzucono na etapie badań.\n\n")
-    f.write("--- SZCZEGÓŁOWY RAPORT ---\n")
+    f.write("-SZCZEGÓŁOWY RAPORT-\n")
     f.write(classification_report(y_true, y_pred, target_names=class_names))
 
 print("Zakończono! Zapisano ulepszony model, wykresy i raport.")
