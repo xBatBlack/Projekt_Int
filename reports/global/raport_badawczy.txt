@@ -1,11 +1,24 @@
 === RAPORT Z EKSPERYMENTÓW ===
 
---- MODELE KLASYCZNE (z inżynierią cech koloru) ---
-1. Baseline KNN: 25.00%
-2. Baseline Random Forest: 18.75%
-3. Baseline SVM: 9.38%
+--- MODELE KLASYCZNE (Inżynieria Cech HOG) ---
+1. Baseline KNN: 75.00%
+2. Baseline Random Forest: 31.25%
+3. Baseline SVM: 31.25%
 
 --- GŁĘBOKIE SIECI NEURONOWE ---
-MobileNetV2 Najwyższa Dokładność: 74.75%
-ResNet50 Najwyższa Dokładność: 29.82%
+MobileNetV2 Dokładność: 75.35%
+* Modele CNN oraz ResNet50 odrzucono na etapie badań.
 
+--- SZCZEGÓŁOWY RAPORT ---
+              precision    recall  f1-score   support
+
+   cardboard       0.82      0.72      0.77        80
+       glass       0.72      0.75      0.74       100
+       metal       0.72      0.77      0.75        82
+       paper       0.71      0.89      0.79       118
+     plastic       0.73      0.53      0.61        96
+       trash       0.48      0.41      0.44        27
+
+    accuracy                           0.72       503
+   macro avg       0.70      0.68      0.68       503
+weighted avg       0.72      0.72      0.72       503
